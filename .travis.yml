@@ -21,4 +21,4 @@ deploy:
     local_dir: build
     verbose: true
     on:
-branch: master
+        branch: master
