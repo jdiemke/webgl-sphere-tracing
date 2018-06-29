@@ -16,6 +16,10 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader'
+            },
+            {
+                test: /\.(fs|vs)$/,
+                use: 'raw-loader'
             }
         ]
     },
