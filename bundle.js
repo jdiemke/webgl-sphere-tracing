@@ -105,7 +105,7 @@ eval("module.exports = \"precision mediump float;\\n\\nuniform float time;\\n\\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst FragmentShader_1 = __webpack_require__(/*! ./shader/FragmentShader */ \"./src/shader/FragmentShader.ts\");\nconst VertexShader_1 = __webpack_require__(/*! ./shader/VertexShader */ \"./src/shader/VertexShader.ts\");\nlet timer;\nlet shaderProgram;\nlet vbo;\nfunction start() {\n    const canvas = document.getElementById(\"canvas\");\n    try {\n        exports.gl = canvas.getContext(\"webgl\");\n    }\n    catch (e) {\n        console.warn(\"Could not retrieve WebGL Context.\");\n    }\n    const vertexShader2 = new VertexShader_1.VertexShader(__webpack_require__(/*! ./vertex-shader.vs */ \"./src/vertex-shader.vs\"));\n    console.log(vertexShader2.getInfoLog());\n    const fragmentShader2 = new FragmentShader_1.FragmentxShader(__webpack_require__(/*! ./fragment-shader.fs */ \"./src/fragment-shader.fs\"));\n    console.log(fragmentShader2.getInfoLog());\n    shaderProgram = exports.gl.createProgram();\n    exports.gl.attachShader(shaderProgram, vertexShader2.getShader());\n    exports.gl.attachShader(shaderProgram, fragmentShader2.getShader());\n    exports.gl.linkProgram(shaderProgram);\n    console.log(exports.gl.getProgramInfoLog(shaderProgram));\n    const result = exports.gl.getProgramParameter(shaderProgram, exports.gl.LINK_STATUS);\n    if (!result) {\n        console.warn(\"link eror\");\n    }\n    exports.gl.useProgram(shaderProgram);\n    timer = exports.gl.getUniformLocation(shaderProgram, \"time\");\n    exports.gl.clearColor(0.0, 1.0, 1.0, 1.0);\n    exports.gl.clear(exports.gl.COLOR_BUFFER_BIT | exports.gl.DEPTH_BUFFER_BIT);\n    const vertices = new Float32Array([\n        -1.0, -1.0, -1.0,\n        1.0, -1.0, -1.0,\n        -1.0, 1.0, -1.0,\n        1.0, -1.0, -1.0,\n        1.0, 1.0, -1.0,\n        -1.0, 1.0, -1.0,\n    ]);\n    vbo = exports.gl.createBuffer();\n    exports.gl.bindBuffer(exports.gl.ARRAY_BUFFER, vbo);\n    exports.gl.bufferData(exports.gl.ARRAY_BUFFER, vertices, exports.gl.STATIC_DRAW);\n    exports.gl.vertexAttribPointer(0, 3, exports.gl.FLOAT, false, 0, 0);\n    exports.gl.enableVertexAttribArray(0);\n    if (exports.gl) {\n        startStop();\n    }\n}\nlet runss = true;\nlet animator;\nfunction startStop() {\n    runss = !runss;\n    if (runss) {\n        clearInterval(animator);\n    }\n    else {\n        animator = setInterval(() => animation(), 40);\n    }\n}\nlet time = 0;\nfunction animation() {\n    exports.gl.clearColor(0.1, 0.4, 0.1, 1.0);\n    exports.gl.clear(exports.gl.COLOR_BUFFER_BIT |\n        exports.gl.DEPTH_BUFFER_BIT);\n    time += 0.01;\n    exports.gl.uniform1f(timer, time);\n    exports.gl.drawArrays(exports.gl.TRIANGLES, 0, 6);\n}\nstart();\n\n\n//# sourceURL=webpack:///./src/index.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst CubeShaderProgram_1 = __webpack_require__(/*! ./shader/CubeShaderProgram */ \"./src/shader/CubeShaderProgram.ts\");\nconst VertexBufferObject_1 = __webpack_require__(/*! ./vbo/VertexBufferObject */ \"./src/vbo/VertexBufferObject.ts\");\nconst startTime = Date.now();\nlet shaderProgram;\nfunction start() {\n    const canvas = document.getElementById('canvas');\n    try {\n        exports.gl = canvas.getContext('webgl');\n    }\n    catch (e) {\n        console.warn('Could not retrieve WebGL Context.');\n    }\n    shaderProgram = new CubeShaderProgram_1.CubeShaderProgram();\n    shaderProgram.use();\n    exports.gl.clearColor(0.1, 0.4, 0.1, 1.0);\n    const vertices = new Float32Array([\n        -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0,\n        1.0, -1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0,\n    ]);\n    new VertexBufferObject_1.VertexBufferObject(vertices).bind();\n    setInterval(() => animation(), 40);\n}\nfunction animation() {\n    exports.gl.clear(exports.gl.COLOR_BUFFER_BIT | exports.gl.DEPTH_BUFFER_BIT);\n    shaderProgram.setTime((Date.now() - startTime) * 0.0002);\n    exports.gl.drawArrays(exports.gl.TRIANGLES, 0, 6);\n}\nstart();\n\n\n//# sourceURL=webpack:///./src/index.ts?");
 
 /***/ }),
 
@@ -121,6 +121,18 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 
 /***/ }),
 
+/***/ "./src/shader/CubeShaderProgram.ts":
+/*!*****************************************!*\
+  !*** ./src/shader/CubeShaderProgram.ts ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst __1 = __webpack_require__(/*! .. */ \"./src/index.ts\");\nconst FragmentShader_1 = __webpack_require__(/*! ./FragmentShader */ \"./src/shader/FragmentShader.ts\");\nconst ShaderProgram_1 = __webpack_require__(/*! ./ShaderProgram */ \"./src/shader/ShaderProgram.ts\");\nconst VertexShader_1 = __webpack_require__(/*! ./VertexShader */ \"./src/shader/VertexShader.ts\");\nclass CubeShaderProgram extends ShaderProgram_1.ShaderProgramm {\n    constructor() {\n        super(new VertexShader_1.VertexShader(__webpack_require__(/*! ./../vertex-shader.vs */ \"./src/vertex-shader.vs\")), new FragmentShader_1.FragmentxShader(__webpack_require__(/*! ./../fragment-shader.fs */ \"./src/fragment-shader.fs\")));\n        this.timerUniformLocation = __1.gl.getUniformLocation(this.getProgram(), 'time');\n    }\n    setTime(time) {\n        __1.gl.uniform1f(this.timerUniformLocation, time);\n    }\n}\nexports.CubeShaderProgram = CubeShaderProgram;\n\n\n//# sourceURL=webpack:///./src/shader/CubeShaderProgram.ts?");
+
+/***/ }),
+
 /***/ "./src/shader/FragmentShader.ts":
 /*!**************************************!*\
   !*** ./src/shader/FragmentShader.ts ***!
@@ -133,6 +145,18 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 
 /***/ }),
 
+/***/ "./src/shader/ShaderProgram.ts":
+/*!*************************************!*\
+  !*** ./src/shader/ShaderProgram.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nclass ShaderProgramm {\n    constructor(vertexShader, fragmentShader) {\n        const program = index_1.gl.createProgram();\n        index_1.gl.attachShader(program, vertexShader.getShader());\n        index_1.gl.attachShader(program, fragmentShader.getShader());\n        index_1.gl.linkProgram(program);\n        console.log(index_1.gl.getProgramInfoLog(program));\n        const result = index_1.gl.getProgramParameter(program, index_1.gl.LINK_STATUS);\n        if (!result) {\n            console.warn('link eror');\n        }\n        this.shaderProgram = program;\n    }\n    use() {\n        index_1.gl.useProgram(this.shaderProgram);\n    }\n    getProgram() {\n        return this.shaderProgram;\n    }\n}\nexports.ShaderProgramm = ShaderProgramm;\n\n\n//# sourceURL=webpack:///./src/shader/ShaderProgram.ts?");
+
+/***/ }),
+
 /***/ "./src/shader/VertexShader.ts":
 /*!************************************!*\
   !*** ./src/shader/VertexShader.ts ***!
@@ -142,6 +166,18 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 
 "use strict";
 eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nconst AbstractShader_1 = __webpack_require__(/*! ./AbstractShader */ \"./src/shader/AbstractShader.ts\");\nclass VertexShader extends AbstractShader_1.AbstractShader {\n    getShaderType() {\n        return index_1.gl.VERTEX_SHADER;\n    }\n}\nexports.VertexShader = VertexShader;\n\n\n//# sourceURL=webpack:///./src/shader/VertexShader.ts?");
+
+/***/ }),
+
+/***/ "./src/vbo/VertexBufferObject.ts":
+/*!***************************************!*\
+  !*** ./src/vbo/VertexBufferObject.ts ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nclass VertexBufferObject {\n    constructor(vertices) {\n        const buffer = index_1.gl.createBuffer();\n        index_1.gl.bindBuffer(index_1.gl.ARRAY_BUFFER, buffer);\n        index_1.gl.bufferData(index_1.gl.ARRAY_BUFFER, vertices, index_1.gl.STATIC_DRAW);\n        index_1.gl.vertexAttribPointer(0, 3, index_1.gl.FLOAT, false, 0, 0);\n        index_1.gl.enableVertexAttribArray(0);\n        this.vbo = buffer;\n    }\n    bind() {\n        index_1.gl.bindBuffer(index_1.gl.ARRAY_BUFFER, this.vbo);\n    }\n}\nexports.VertexBufferObject = VertexBufferObject;\n\n\n//# sourceURL=webpack:///./src/vbo/VertexBufferObject.ts?");
 
 /***/ }),
 
