@@ -81,10 +81,22 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/main.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./src/CubeScene.ts":
+/*!**************************!*\
+  !*** ./src/CubeScene.ts ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst FullscreenQuad_1 = __webpack_require__(/*! ./FullscreenQuad */ \"./src/FullscreenQuad.ts\");\nconst Scene_1 = __webpack_require__(/*! ./Scene */ \"./src/Scene.ts\");\nconst CubeShaderProgram_1 = __webpack_require__(/*! ./shader/CubeShaderProgram */ \"./src/shader/CubeShaderProgram.ts\");\nclass CubeScene extends Scene_1.AbstractScene {\n    constructor() {\n        super(...arguments);\n        this.startTime = Date.now();\n    }\n    init() {\n        this.shaderProgram = new CubeShaderProgram_1.CubeShaderProgram();\n        this.shaderProgram.use();\n        this.fullscreenQuad = new FullscreenQuad_1.FullscreenQuad();\n    }\n    draw() {\n        this.shaderProgram.setTime((Date.now() - this.startTime) * 0.0002);\n        this.fullscreenQuad.draw();\n    }\n}\nexports.CubeScene = CubeScene;\n\n\n//# sourceURL=webpack:///./src/CubeScene.ts?");
+
+/***/ }),
 
 /***/ "./src/FullscreenQuad.ts":
 /*!*******************************!*\
@@ -95,6 +107,42 @@
 
 "use strict";
 eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst VertexBufferObject_1 = __webpack_require__(/*! ./vbo/VertexBufferObject */ \"./src/vbo/VertexBufferObject.ts\");\nclass FullscreenQuad {\n    constructor() {\n        const quadrilateralVertices = new Float32Array([\n            -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, 1.0, -1.0,\n            1.0, -1.0, -1.0, 1.0, 1.0, -1.0, -1.0, 1.0, -1.0,\n        ]);\n        this.vbo = new VertexBufferObject_1.VertexBufferObject(quadrilateralVertices);\n    }\n    draw() {\n        this.vbo.draw();\n    }\n}\nexports.FullscreenQuad = FullscreenQuad;\n\n\n//# sourceURL=webpack:///./src/FullscreenQuad.ts?");
+
+/***/ }),
+
+/***/ "./src/RenderingContext.ts":
+/*!*********************************!*\
+  !*** ./src/RenderingContext.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n/**\n * Stores the currently active rendering context in a global variable.\n */\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.context = null;\nfunction setCurrentContext(currentContext) {\n    exports.context = currentContext;\n}\nexports.setCurrentContext = setCurrentContext;\n\n\n//# sourceURL=webpack:///./src/RenderingContext.ts?");
+
+/***/ }),
+
+/***/ "./src/Scene.ts":
+/*!**********************!*\
+  !*** ./src/Scene.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nclass AbstractScene {\n}\nexports.AbstractScene = AbstractScene;\n\n\n//# sourceURL=webpack:///./src/Scene.ts?");
+
+/***/ }),
+
+/***/ "./src/Window.ts":
+/*!***********************!*\
+  !*** ./src/Window.ts ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext = __webpack_require__(/*! ./RenderingContext */ \"./src/RenderingContext.ts\");\nclass Window {\n    constructor(elementId) {\n        const canvas = document.getElementById(elementId);\n        const gl = canvas.getContext('webgl');\n        if (gl === null) {\n            throw new Error('Could not initialize WebGL rendering context.');\n        }\n        RenderingContext.setCurrentContext(gl);\n    }\n    addScene(scene) {\n        this.scene = scene;\n    }\n    start() {\n        this.scene.init();\n        this.draw();\n    }\n    draw() {\n        this.scene.draw();\n        requestAnimationFrame(() => this.draw());\n    }\n}\nexports.Window = Window;\n\n\n//# sourceURL=webpack:///./src/Window.ts?");
 
 /***/ }),
 
@@ -109,15 +157,15 @@ eval("module.exports = \"precision mediump float;\\n\\nuniform float time;\\n\\n
 
 /***/ }),
 
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
+/***/ "./src/main.ts":
+/*!*********************!*\
+  !*** ./src/main.ts ***!
+  \*********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst FullscreenQuad_1 = __webpack_require__(/*! ./FullscreenQuad */ \"./src/FullscreenQuad.ts\");\nconst CubeShaderProgram_1 = __webpack_require__(/*! ./shader/CubeShaderProgram */ \"./src/shader/CubeShaderProgram.ts\");\nconst startTime = Date.now();\nlet shaderProgram;\nlet fullscreenQuad;\nfunction start() {\n    const canvas = document.getElementById('canvas');\n    try {\n        exports.gl = canvas.getContext('webgl');\n    }\n    catch (e) {\n        console.warn('Could not retrieve WebGL Context.');\n    }\n    shaderProgram = new CubeShaderProgram_1.CubeShaderProgram();\n    shaderProgram.use();\n    fullscreenQuad = new FullscreenQuad_1.FullscreenQuad();\n    setInterval(() => animation(), 40);\n}\nfunction animation() {\n    shaderProgram.setTime((Date.now() - startTime) * 0.0002);\n    fullscreenQuad.draw();\n}\nstart();\n\n\n//# sourceURL=webpack:///./src/index.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst CubeScene_1 = __webpack_require__(/*! ./CubeScene */ \"./src/CubeScene.ts\");\nconst PULSAR = __webpack_require__(/*! ./Window */ \"./src/Window.ts\");\nclass Application {\n    main() {\n        const window = new PULSAR.Window('canvas');\n        window.addScene(new CubeScene_1.CubeScene());\n        window.start();\n    }\n}\nnew Application().main();\n\n\n//# sourceURL=webpack:///./src/main.ts?");
 
 /***/ }),
 
@@ -129,7 +177,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nclass AbstractShader {\n    constructor(source) {\n        this.create();\n        this.addSource(source);\n        this.compile();\n    }\n    getInfoLog() {\n        return index_1.gl.getShaderInfoLog(this.shader);\n    }\n    getShader() {\n        return this.shader;\n    }\n    create() {\n        this.shader = index_1.gl.createShader(this.getShaderType());\n    }\n    addSource(source) {\n        index_1.gl.shaderSource(this.shader, source);\n    }\n    compile() {\n        index_1.gl.compileShader(this.shader);\n    }\n}\nexports.AbstractShader = AbstractShader;\n\n\n//# sourceURL=webpack:///./src/shader/AbstractShader.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext_1 = __webpack_require__(/*! ./../RenderingContext */ \"./src/RenderingContext.ts\");\nclass AbstractShader {\n    constructor(source) {\n        this.create();\n        this.addSource(source);\n        this.compile();\n    }\n    getInfoLog() {\n        return RenderingContext_1.context.getShaderInfoLog(this.shader);\n    }\n    getShader() {\n        return this.shader;\n    }\n    create() {\n        this.shader = RenderingContext_1.context.createShader(this.getShaderType());\n    }\n    addSource(source) {\n        RenderingContext_1.context.shaderSource(this.shader, source);\n    }\n    compile() {\n        RenderingContext_1.context.compileShader(this.shader);\n    }\n}\nexports.AbstractShader = AbstractShader;\n\n\n//# sourceURL=webpack:///./src/shader/AbstractShader.ts?");
 
 /***/ }),
 
@@ -141,7 +189,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst __1 = __webpack_require__(/*! .. */ \"./src/index.ts\");\nconst FragmentShader_1 = __webpack_require__(/*! ./FragmentShader */ \"./src/shader/FragmentShader.ts\");\nconst ShaderProgram_1 = __webpack_require__(/*! ./ShaderProgram */ \"./src/shader/ShaderProgram.ts\");\nconst VertexShader_1 = __webpack_require__(/*! ./VertexShader */ \"./src/shader/VertexShader.ts\");\nclass CubeShaderProgram extends ShaderProgram_1.ShaderProgramm {\n    constructor() {\n        super(new VertexShader_1.VertexShader(__webpack_require__(/*! ./../vertex-shader.vs */ \"./src/vertex-shader.vs\")), new FragmentShader_1.FragmentxShader(__webpack_require__(/*! ./../fragment-shader.fs */ \"./src/fragment-shader.fs\")));\n        this.timerUniformLocation = __1.gl.getUniformLocation(this.getProgram(), 'time');\n    }\n    setTime(time) {\n        __1.gl.uniform1f(this.timerUniformLocation, time);\n    }\n}\nexports.CubeShaderProgram = CubeShaderProgram;\n\n\n//# sourceURL=webpack:///./src/shader/CubeShaderProgram.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext_1 = __webpack_require__(/*! ./../RenderingContext */ \"./src/RenderingContext.ts\");\nconst FragmentShader_1 = __webpack_require__(/*! ./FragmentShader */ \"./src/shader/FragmentShader.ts\");\nconst ShaderProgram_1 = __webpack_require__(/*! ./ShaderProgram */ \"./src/shader/ShaderProgram.ts\");\nconst VertexShader_1 = __webpack_require__(/*! ./VertexShader */ \"./src/shader/VertexShader.ts\");\nclass CubeShaderProgram extends ShaderProgram_1.ShaderProgramm {\n    constructor() {\n        super(new VertexShader_1.VertexShader(__webpack_require__(/*! ./../vertex-shader.vs */ \"./src/vertex-shader.vs\")), new FragmentShader_1.FragmentxShader(__webpack_require__(/*! ./../fragment-shader.fs */ \"./src/fragment-shader.fs\")));\n        this.timerUniformLocation = RenderingContext_1.context.getUniformLocation(this.getProgram(), 'time');\n    }\n    setTime(time) {\n        RenderingContext_1.context.uniform1f(this.timerUniformLocation, time);\n    }\n}\nexports.CubeShaderProgram = CubeShaderProgram;\n\n\n//# sourceURL=webpack:///./src/shader/CubeShaderProgram.ts?");
 
 /***/ }),
 
@@ -153,7 +201,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nconst AbstractShader_1 = __webpack_require__(/*! ./AbstractShader */ \"./src/shader/AbstractShader.ts\");\nclass FragmentxShader extends AbstractShader_1.AbstractShader {\n    getShaderType() {\n        return index_1.gl.FRAGMENT_SHADER;\n    }\n}\nexports.FragmentxShader = FragmentxShader;\n\n\n//# sourceURL=webpack:///./src/shader/FragmentShader.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext_1 = __webpack_require__(/*! ./../RenderingContext */ \"./src/RenderingContext.ts\");\nconst AbstractShader_1 = __webpack_require__(/*! ./AbstractShader */ \"./src/shader/AbstractShader.ts\");\nclass FragmentxShader extends AbstractShader_1.AbstractShader {\n    getShaderType() {\n        return RenderingContext_1.context.FRAGMENT_SHADER;\n    }\n}\nexports.FragmentxShader = FragmentxShader;\n\n\n//# sourceURL=webpack:///./src/shader/FragmentShader.ts?");
 
 /***/ }),
 
@@ -165,7 +213,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nclass ShaderProgramm {\n    constructor(vertexShader, fragmentShader) {\n        const program = index_1.gl.createProgram();\n        index_1.gl.attachShader(program, vertexShader.getShader());\n        index_1.gl.attachShader(program, fragmentShader.getShader());\n        index_1.gl.linkProgram(program);\n        console.log(index_1.gl.getProgramInfoLog(program));\n        const result = index_1.gl.getProgramParameter(program, index_1.gl.LINK_STATUS);\n        if (!result) {\n            console.warn('link eror');\n        }\n        this.shaderProgram = program;\n    }\n    use() {\n        index_1.gl.useProgram(this.shaderProgram);\n    }\n    getProgram() {\n        return this.shaderProgram;\n    }\n}\nexports.ShaderProgramm = ShaderProgramm;\n\n\n//# sourceURL=webpack:///./src/shader/ShaderProgram.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext_1 = __webpack_require__(/*! ./../RenderingContext */ \"./src/RenderingContext.ts\");\nclass ShaderProgramm {\n    constructor(vertexShader, fragmentShader) {\n        const program = RenderingContext_1.context.createProgram();\n        RenderingContext_1.context.attachShader(program, vertexShader.getShader());\n        RenderingContext_1.context.attachShader(program, fragmentShader.getShader());\n        RenderingContext_1.context.linkProgram(program);\n        console.log(RenderingContext_1.context.getProgramInfoLog(program));\n        const result = RenderingContext_1.context.getProgramParameter(program, RenderingContext_1.context.LINK_STATUS);\n        if (!result) {\n            console.warn('link eror');\n        }\n        this.shaderProgram = program;\n    }\n    use() {\n        RenderingContext_1.context.useProgram(this.shaderProgram);\n    }\n    getProgram() {\n        return this.shaderProgram;\n    }\n}\nexports.ShaderProgramm = ShaderProgramm;\n\n\n//# sourceURL=webpack:///./src/shader/ShaderProgram.ts?");
 
 /***/ }),
 
@@ -177,7 +225,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nconst AbstractShader_1 = __webpack_require__(/*! ./AbstractShader */ \"./src/shader/AbstractShader.ts\");\nclass VertexShader extends AbstractShader_1.AbstractShader {\n    getShaderType() {\n        return index_1.gl.VERTEX_SHADER;\n    }\n}\nexports.VertexShader = VertexShader;\n\n\n//# sourceURL=webpack:///./src/shader/VertexShader.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext_1 = __webpack_require__(/*! ./../RenderingContext */ \"./src/RenderingContext.ts\");\nconst AbstractShader_1 = __webpack_require__(/*! ./AbstractShader */ \"./src/shader/AbstractShader.ts\");\nclass VertexShader extends AbstractShader_1.AbstractShader {\n    getShaderType() {\n        return RenderingContext_1.context.VERTEX_SHADER;\n    }\n}\nexports.VertexShader = VertexShader;\n\n\n//# sourceURL=webpack:///./src/shader/VertexShader.ts?");
 
 /***/ }),
 
@@ -189,7 +237,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst index_1 = __webpack_require__(/*! ../index */ \"./src/index.ts\");\nclass VertexBufferObject {\n    constructor(vertices) {\n        const buffer = index_1.gl.createBuffer();\n        index_1.gl.bindBuffer(index_1.gl.ARRAY_BUFFER, buffer);\n        index_1.gl.bufferData(index_1.gl.ARRAY_BUFFER, vertices, index_1.gl.STATIC_DRAW);\n        index_1.gl.vertexAttribPointer(0, 3, index_1.gl.FLOAT, false, 0, 0);\n        index_1.gl.enableVertexAttribArray(0);\n        this.vbo = buffer;\n    }\n    draw() {\n        index_1.gl.bindBuffer(index_1.gl.ARRAY_BUFFER, this.vbo);\n        index_1.gl.drawArrays(index_1.gl.TRIANGLES, 0, 6);\n    }\n}\nexports.VertexBufferObject = VertexBufferObject;\n\n\n//# sourceURL=webpack:///./src/vbo/VertexBufferObject.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nconst RenderingContext_1 = __webpack_require__(/*! ./../RenderingContext */ \"./src/RenderingContext.ts\");\nclass VertexBufferObject {\n    constructor(vertices) {\n        const buffer = RenderingContext_1.context.createBuffer();\n        RenderingContext_1.context.bindBuffer(RenderingContext_1.context.ARRAY_BUFFER, buffer);\n        RenderingContext_1.context.bufferData(RenderingContext_1.context.ARRAY_BUFFER, vertices, RenderingContext_1.context.STATIC_DRAW);\n        RenderingContext_1.context.vertexAttribPointer(0, 3, RenderingContext_1.context.FLOAT, false, 0, 0);\n        RenderingContext_1.context.enableVertexAttribArray(0);\n        this.vbo = buffer;\n    }\n    draw() {\n        RenderingContext_1.context.bindBuffer(RenderingContext_1.context.ARRAY_BUFFER, this.vbo);\n        RenderingContext_1.context.drawArrays(RenderingContext_1.context.TRIANGLES, 0, 6);\n    }\n}\nexports.VertexBufferObject = VertexBufferObject;\n\n\n//# sourceURL=webpack:///./src/vbo/VertexBufferObject.ts?");
 
 /***/ }),
 
