@@ -13,8 +13,9 @@ export class VertexBufferObject {
         this.vbo = buffer;
     }
 
-    public bind(): void {
+    public draw(): void {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
 
 }
