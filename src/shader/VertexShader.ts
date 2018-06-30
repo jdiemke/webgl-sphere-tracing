@@ -1,5 +1,5 @@
-import { gl } from "../index";
-import { AbstractShader } from "./AbstractShader";
+import { gl } from '../index';
+import { AbstractShader } from './AbstractShader';
 
 export class VertexShader extends AbstractShader {
 

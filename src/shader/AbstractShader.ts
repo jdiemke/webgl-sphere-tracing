@@ -1,4 +1,4 @@
-import { gl } from "../index";
+import { gl } from '../index';
 
 export abstract class AbstractShader {
 
