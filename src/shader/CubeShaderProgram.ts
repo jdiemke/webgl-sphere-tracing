@@ -1,4 +1,4 @@
-import { gl } from '..';
+import { context as gl} from './../RenderingContext';
 import { FragmentxShader } from './FragmentShader';
 import { ShaderProgramm } from './ShaderProgram';
 import { VertexShader } from './VertexShader';

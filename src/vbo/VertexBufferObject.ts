@@ -1,4 +1,4 @@
-import { gl } from '../index';
+import { context as gl} from './../RenderingContext';
 
 export class VertexBufferObject {
 
