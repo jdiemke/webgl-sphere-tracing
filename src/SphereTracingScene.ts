@@ -1,15 +1,19 @@
 import { FullscreenQuad } from './FullscreenQuad';
 import { AbstractScene } from './Scene';
-import { CubeShaderProgram } from './shader/CubeShaderProgram';
+import { SphereTracingShaderProgram } from './shader/SphereTracingShaderProgram';
 
-export class CubeScene extends AbstractScene {
+export class SphereTracingScene extends AbstractScene {
 
-    private shaderProgram: CubeShaderProgram;
+    private shaderProgram: SphereTracingShaderProgram;
     private fullscreenQuad: FullscreenQuad;
     private startTime = Date.now();
 
+    constructor(vertexShaderSource: string, fragmentShaderSource: string) {
+        super();
+        this.shaderProgram = new SphereTracingShaderProgram(vertexShaderSource, fragmentShaderSource);
+    }
+
     public init(): void {
-        this.shaderProgram = new CubeShaderProgram();
         this.shaderProgram.use();
         this.fullscreenQuad = new FullscreenQuad();
     }

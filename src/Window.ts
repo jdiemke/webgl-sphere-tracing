@@ -16,7 +16,7 @@ export class Window {
         RenderingContext.setCurrentContext(gl);
     }
 
-    public addScene(scene: AbstractScene): void {
+    public setScene(scene: AbstractScene): void {
         this.scene = scene;
     }
 

@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/main',
+    entry: './src/demos/cube/Application',
     mode: 'development',
     output: {
         filename: 'bundle.js',
