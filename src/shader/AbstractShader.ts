@@ -8,6 +8,8 @@ export abstract class AbstractShader {
         this.create();
         this.addSource(source);
         this.compile();
+
+        console.warn(this.getInfoLog());
     }
 
     public getInfoLog(): string {

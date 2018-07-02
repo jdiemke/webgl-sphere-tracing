@@ -2,10 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/demos/cube/Application',
+    entry: {
+        'cube': './src/demos/cube/main',
+        'reflections': './src/demos/reflections/main'
+    },
     mode: 'development',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, './build')
     },
     resolve: {
@@ -25,7 +28,14 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
-        })
+            template: './src/index.html',
+            chunks: ['cube'],
+            filename: 'cube.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            chunks: ['reflections'],
+            filename: 'reflections.html'
+        }),
     ]
 }

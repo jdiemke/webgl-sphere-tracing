@@ -19,7 +19,9 @@ export class SphereTracingScene extends AbstractScene {
     }
 
     public draw(): void {
-        this.shaderProgram.setTime((Date.now() - this.startTime) * 0.0002);
+        const elapsedTime: number = (Date.now() - this.startTime) * 0.0002;
+        this.shaderProgram.use();
+        this.shaderProgram.setTime(elapsedTime);
         this.fullscreenQuad.draw();
     }
 
