@@ -5,7 +5,7 @@ uniform float time;
 
 const float width  = 640.0;
 const float height = 360.0;
-const float delta  = 0.001;
+const float delta  = 0.01;
 const float PI =  3.14159265;
 
 float sphere(vec3 position, float r)
@@ -60,21 +60,6 @@ float sdSphere( vec3 p, float s )
 {
   return length(p)-s;
 }
-/*
-float function(vec3 position) {
-
-
-	return  sdTorus(
-
-			rotateX(
-			rotateY(
-
-			translate(position.xyz,vec3(0.0,0.0,20.0))
-			,
-			time* 2.3),position.x*0.8 + time* 0.1)
-
-			, vec2(4.0,2.0));
-}*/
 
 
 
@@ -201,53 +186,7 @@ vec3 gradient(vec3 position) {
 
 }
 
-vec4 plasma(vec2 pos) {
- vec2 p = -1.0 +2.0 * pos / vec2(640, 360);
-float cossin1 = ((cos(p.x * 2.50 +time*2.5) +sin(p.y*3.70-time*4.5) +sin(time*2.5))+3.0)/6.0;
-float cossin2 = (cos(p.y * 2.30 +time*3.5) +sin(p.x*2.90-time*1.5) +cos(time)+3.0)/6.0;
-float cossin3 = (cos(p.x * 3.10 +time*5.5) +0.5*sin(p.y*2.30-time) +cos(time*3.5)+3.0)/6.0;
-return vec4(vec3(cossin1, cossin2, cossin3)*0.6, 1.0);
 
-}
-
-
-
-float aoScale = 0.3; // smaller aoScale = more AO
-float computeAO(vec3 position, vec3 normal) {
-
-float sum = 0.0;
-float stepSize = 0.015;
-float t = stepSize;
-
-	for(int i=0; i < 8; i++) {
-		position = ray(position, normal, t);
-		sum += max(function(position),0.0);
-		t+=stepSize;
-	}
-	return 1.0-clamp(1.0 -(sum * aoScale),0.0, 1.0);
-}
-
-float computeShadow(vec3 pos) {
-
-	float t = 0.0;
-	float distance;
-vec3 position;
-float res = 1.0;
-float k = 10.0;
-	for(int i=0; i < 64; i++) {
-		position = ray(pos,normalize(lightPosition-pos) , t);
-		distance = function(position);
-
-		if(distance < 0.007) {
-			break;
-
-		}
-		res = min(res, k*distance/t);
-		t = t + distance ;
-	}
-	if(length(pos - lightPosition)+0.0 < t) return res;
-	return 0.0;
-}
 
 vec4 computeReflection(vec3 pos, vec3 viewDirection) {
 	float t = 0.0;
@@ -258,14 +197,17 @@ vec4 computeReflection(vec3 pos, vec3 viewDirection) {
 	vec3 normal;
 	vec3 up = normalize(vec3(-0.0, 1.0,0.0));
 
-	for(int i=0; i < 35; i++) {
+	for(int i=0; i < 32; i++) {
 		position = ray(cameraPosition,	viewDirection, t);
 		distance = function(position);
 
-
-
 		if(distance < 0.04) {
 
+			break;
+		}
+		//color += 0.6*vec4(vec3(0.4, 0.9,0.1)*pow(float(i)/64.0*2.6, 2.0) *1.0,1.0);
+			t = t + distance * 1.0;
+	}
 
 		normal = normalize(gradient(position));
 
@@ -296,27 +238,13 @@ vec4 computeReflection(vec3 pos, vec3 viewDirection) {
 			color = color * alpha + vec4(0.0,0.0,0.0,1.0) *(1.0 -alpha);
 
 
-			break;
-		}
-		//color += 0.6*vec4(vec3(0.4, 0.9,0.1)*pow(float(i)/64.0*2.6, 2.0) *1.0,1.0);
-			t = t + distance * 1.0;
-	}
+
 
 
 	return color;
 }
-#define pi 3.14159265
-float perlin(vec3 p) {
-	vec3 i = floor(p);
-	vec4 a = dot(i, vec3(1., 57., 21.)) + vec4(0., 57., 21., 78.);
-	vec3 f = cos((p-i)*pi)*(-.5)+.5;
-	a = mix(sin(cos(a)*a),sin(cos(1.+a)*(1.+a)), f.x);
-	a.xy = mix(a.xz, a.yw, f.y);
-	return mix(a.x, a.y, f.z);
-}
 
-void main()
-{
+void main() {
 	vec3 cameraPosition = vec3(0.0, 0.0, -1.2);
 
 	float aspect = 360.0/640.0;
@@ -335,13 +263,16 @@ float l=length(nearPlanePosition - cameraPosition);
 	vec3 normal;
 	vec3 up = normalize(vec3(-0.0, 1.0,0.0));
 
-	for(int i=0; i < 64; i++) {
+	for(int i=0; i < 32; i++) {
 		position = ray(cameraPosition,	viewDirection, t);
 		distance = function(position);
 
+		if(distance < 0.005) {
+			break;
+		}
 
-
-		if(distance < 0.009) {
+		t = t + distance;
+	}
 
 
 			normal = normalize(gradient(position));
@@ -358,7 +289,7 @@ float l=length(nearPlanePosition - cameraPosition);
 			float specular = pow( max(dot(R, E), 0.0),
 		                 6.0);
 
-			float alpha = 1.0-clamp( pow(length(position-vec3(0.0,0.0,1.0)),2.0)*0.0016,0.0, 1.0);
+			float alpha = 1.0-clamp( pow(length(position-vec3(0.0,0.0,1.0)),2.0)*0.0026,0.0, 1.0);
 
 
 			vec3 mycolor = vec3(255.0/255.0,127.0/255.0,36.0/255.0);
@@ -371,17 +302,8 @@ float l=length(nearPlanePosition - cameraPosition);
 
 			color += vec4(vec3(0.7)*1.0*specular, 1.0);
 
-			color = color * alpha + vec4(0.0,0.0,0.0,1.0) *(1.0 -alpha);
+			color = color * alpha + vec4(0.3,1.0,0.3,1.0) *(1.0 -alpha);
 
-
-			break;
-
-
-		}
-
-
-			t = t + distance * 1.0;
-	}
 
 
 	gl_FragColor = vec4(vec3(((color-0.5)*1.7+0.5)+0.2),1.0);
