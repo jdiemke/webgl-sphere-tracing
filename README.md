@@ -11,3 +11,12 @@ Signed distance field sphere tracing using WebGL and TypeScript.
 ## Demos
 * [Cube](https://jdiemke.github.io/webgl-sphere-tracing/cube.html)
 * [Reflections](https://jdiemke.github.io/webgl-sphere-tracing/reflections.html)
+
+## References
+* [Raymarching Distance Fields](http://9bitscience.blogspot.com/2013/07/raymarching-distance-fields_14.html)
+* [Ray tracing implicit surfaces on the GPU](http://old.cescg.org/CESCG-2008/papers/TUBudapest-Liktor-Gabor.pdf)
+* [Sphere tracing and all that](https://pdp7.org/files/sphere_tracing.pdf)
+* [free penumbra shadows for raymarching distance fields](http://www.iquilezles.org/www/articles/rmshadows/rmshadows.htm)
+* [Enhanced Sphere Tracing](http://erleuchtet.org/~cupe/permanent/enhanced_sphere_tracing.pdf)
+* [Procedural modeling with signed distance functions](http://aka-san.halcy.de/thesis.pdf)
+* [Sphere Tracing: A Geometric Method for the Antialiased Ray Tracing of Implicit Surfaces](http://mathinfo.univ-reims.fr/IMG/pdf/hart94sphere.pdf)
