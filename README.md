@@ -1,4 +1,4 @@
-# webgl-sphere-tracing
+# WebGL Sphere Tracing
 [![Build Status](https://travis-ci.org/jdiemke/webgl-sphere-tracing.svg?branch=master)](https://travis-ci.org/jdiemke/webgl-sphere-tracing)
 [![GitHub stars](https://img.shields.io/github/stars/jdiemke/webgl-sphere-tracing.svg)](https://github.com/jdiemke/webgl-sphere-tracing/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/jdiemke/webgl-sphere-tracing.svg)](https://github.com/jdiemke/webgl-sphere-tracing/network)
