@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         'cube': './src/demos/cube/main',
-        'reflections': './src/demos/reflections/main'
+        'reflections': './src/demos/reflections/main',
+        'perlin-noise-sphere': './src/demos/perlin-noise-sphere/main'
     },
     mode: 'development',
     output: {
@@ -36,6 +37,11 @@ module.exports = {
             template: './src/index.html',
             chunks: ['reflections'],
             filename: 'reflections.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            chunks: ['perlin-noise-sphere'],
+            filename: 'perlin-noise-sphere.html'
         }),
     ]
 }

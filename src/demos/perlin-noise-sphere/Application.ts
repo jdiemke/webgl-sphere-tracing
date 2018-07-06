@@ -1,8 +1,8 @@
 import { SphereTracingScene } from './../../SphereTracingScene';
 import * as PULSAR from './../../Window';
 
-import reflectionFragmentShader from './shader/reflection.fs';
-import reflectionVertexShader from './shader/reflection.vs';
+import reflectionFragmentShader from './shader/perlin-noise-sphere.fs';
+import reflectionVertexShader from './shader/perlin-noise-sphere.vs';
 
 export class Application {
 
