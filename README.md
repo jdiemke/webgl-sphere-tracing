@@ -12,6 +12,7 @@ Signed distance field sphere tracing using WebGL and TypeScript.
 * [Cube](https://jdiemke.github.io/webgl-sphere-tracing/cube.html)
 * [Reflections](https://jdiemke.github.io/webgl-sphere-tracing/reflections.html)
 * [Perlin Noise Sphere](https://jdiemke.github.io/webgl-sphere-tracing/perlin-noise-sphere.html)
+* [Spike Donut](https://jdiemke.github.io/webgl-sphere-tracing/spike-donut.html)
 
 ## References
 

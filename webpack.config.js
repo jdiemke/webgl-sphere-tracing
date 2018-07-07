@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         'cube': './src/demos/cube/main',
         'reflections': './src/demos/reflections/main',
-        'perlin-noise-sphere': './src/demos/perlin-noise-sphere/main'
+        'perlin-noise-sphere': './src/demos/perlin-noise-sphere/main',
+        'spike-donut': './src/demos/spike-donut/main'
     },
     mode: 'development',
     output: {
@@ -43,5 +44,10 @@ module.exports = {
             chunks: ['perlin-noise-sphere'],
             filename: 'perlin-noise-sphere.html'
         }),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            chunks: ['spike-donut'],
+            filename: 'spike-donut.html'
+        })
     ]
 }
